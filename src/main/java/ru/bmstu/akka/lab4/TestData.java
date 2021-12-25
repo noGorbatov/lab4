@@ -22,4 +22,16 @@ public class TestData {
         this.expected = expected;
         this.parameters = parameters;
     }
+
+    public List<Integer> getParameters() {
+        return parameters;
+    }
+
+    public String getExpected() {
+        return expected;
+    }
+
+    public String getTestName() {
+        return testName;
+    }
 }
