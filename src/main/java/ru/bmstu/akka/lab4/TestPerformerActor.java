@@ -14,10 +14,10 @@ public class TestPerformerActor extends AbstractActor {
     public static class RunTestMsg {
         final private String script;
         final private String funcName;
-        final private TestData testPackage;
+        final private TestData testData;
         final private ActorRef storageActor;
         public RunTestMsg(TestData test, String script, String funcName, ActorRef storageActor) {
-            this.testPackage = test;
+            this.testData = test;
             this.script = script;
             this.funcName = funcName;
             this.storageActor = storageActor;
@@ -25,8 +25,8 @@ public class TestPerformerActor extends AbstractActor {
         public ActorRef getStorageActor() {
             return storageActor;
         }
-        public TestData getTestPackage() {
-            return testPackage;
+        public TestData getTestData() {
+            return testData;
         }
         public String getScript() {
             return script;
@@ -48,6 +48,6 @@ public class TestPerformerActor extends AbstractActor {
                                     getEngineByName(ENGINE_NAME);
         engine.eval(testMsg.getScript());
         Invocable invocable = (Invocable) engine;
-        String result = invocable.invokeFunction(testMsg.getFuncName())
+        String result = invocable.invokeFunction(testMsg.getFuncName(), testMsg.getTest)
     }
 }
