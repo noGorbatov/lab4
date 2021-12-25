@@ -3,7 +3,11 @@ package ru.bmstu.akka.lab4;
 import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+
 public class TestPerformerActor extends AbstractActor {
+    final private static String ENGINE_NAME = "nashorn";
 
     public static class RunTestMsg {
         final private TestData testPackage;
@@ -28,6 +32,8 @@ public class TestPerformerActor extends AbstractActor {
     }
 
     private void runTest(RunTestMsg testMsg) {
-        
+        ScriptEngine engine = new ScriptEngineManager().
+                                    getEngineByName(ENGINE_NAME);
+        engine.eval(testMsg.getTestPackage().)
     }
 }
