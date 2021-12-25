@@ -9,12 +9,15 @@ import akka.http.javadsl.server.Route;
 import akka.pattern.PatternsCS;
 import akka.routing.RoundRobinPool;
 
+import java.util.concurrent.CompletionStage;
+
 public class HttpServer extends AllDirectives {
     ActorSystem system;
     ActorRef storageActor;
     ActorRef workerPool;
     final static private int WORKERS_NUM = 5;
     final static private String PACKAGE_ID_PARAM = "packageId";
+    final static private int TIMEOUT_MS = 5000;
 
     public HttpServer(ActorSystem system) {
         this.system = system;
@@ -37,7 +40,8 @@ public class HttpServer extends AllDirectives {
                     return complete("ok");
                 })),
                 get( () -> parameter( PACKAGE_ID_PARAM, packageId -> {
-                    PatternsCS.ask(storageActor, new StorageActor.GetMsg(Integer.parseInt(packageId)), ActorRef.noSender());
+                    CompletionStage<Object> answer = PatternsCS.ask(storageActor, new StorageActor.GetMsg(Integer.parseInt(packageId)), TIMEOUT_MS);
+                    
                     return completeOKWithFuture();
                 }))
         );
