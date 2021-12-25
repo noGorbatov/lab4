@@ -10,10 +10,10 @@ public class TestPackage {
     final static private String JS_SCRIPT = "jsScript";
     final static private String TESTS = "tests";
 
-    private int id;
-    private String script;
+    final private int id;
+    final private String script;
     private String functionName;
-    private List<TestData> tests;
+    final private List<TestData> tests;
 
     @JsonCreator
     public TestPackage(@JsonProperty(PACKAGE_ID) int id,
@@ -22,5 +22,17 @@ public class TestPackage {
         this.id = id;
         this.script = script;
         this.tests = tests;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public static String getJsScript() {
+        return JS_SCRIPT;
+    }
+
+    public List<TestData> getTests() {
+        return tests;
     }
 }
