@@ -13,7 +13,7 @@ public class TestPackage {
 
     final private int id;
     final private String script;
-    private String functionName;
+    final private String functionName;
     final private List<TestData> tests;
 
     @JsonCreator

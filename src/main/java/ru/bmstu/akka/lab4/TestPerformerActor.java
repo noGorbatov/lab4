@@ -12,11 +12,13 @@ public class TestPerformerActor extends AbstractActor {
     final private static String ENGINE_NAME = "nashorn";
 
     public static class RunTestMsg {
+        final private int packageId;
         final private String script;
         final private String funcName;
         final private TestData testData;
         final private ActorRef storageActor;
-        public RunTestMsg(TestData test, String script, String funcName, ActorRef storageActor) {
+        public RunTestMsg(int packageId, TestData test, String script, String funcName, ActorRef storageActor) {
+            this.packageId = packageId;
             this.testData = test;
             this.script = script;
             this.funcName = funcName;
@@ -33,6 +35,9 @@ public class TestPerformerActor extends AbstractActor {
         }
         public String getFuncName() {
             return funcName;
+        }
+        public int getPackageId() {
+            return packageId;
         }
     }
 
@@ -51,6 +56,15 @@ public class TestPerformerActor extends AbstractActor {
         String result = (String) invocable.invokeFunction(testMsg.getFuncName(),
                                                 testMsg.getTestData().
                                                         getParameters());
-        if (result != testMsg.getTestData().)
+
+        int id = testMsg.getPackageId();
+        ActorRef storageActor = testMsg.getStorageActor();
+        String store = "";
+
+        if (!result.equals(testMsg.getTestData().getExpected())) {
+
+        }
+
+        storageActor.tell(new StorageActor.StoreMsg(id, ));
     }
 }
