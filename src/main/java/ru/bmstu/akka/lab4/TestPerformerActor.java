@@ -48,6 +48,6 @@ public class TestPerformerActor extends AbstractActor {
                                     getEngineByName(ENGINE_NAME);
         engine.eval(testMsg.getScript());
         Invocable invocable = (Invocable) engine;
-        String result = invocable.invokeFunction(testMsg.funcName, test)
+        String result = invocable.invokeFunction(testMsg.getFuncName())
     }
 }
