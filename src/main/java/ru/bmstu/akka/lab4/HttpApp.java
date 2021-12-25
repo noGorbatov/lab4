@@ -10,10 +10,14 @@ import akka.http.javadsl.model.HttpResponse;
 import akka.stream.ActorMaterializer;
 import akka.stream.javadsl.Flow;
 
+import java.io.IOException;
 import java.util.concurrent.CompletionStage;
 
 public class HttpApp {
-    public static void main(String[] args) {
+    private final static String HOST = "localhost";
+    private final static int PORT = 8080;
+
+    public static void main(String[] args) throws IOException {
         ActorSystem system = ActorSystem.create("HttpSystem");
         Http http = Http.get(system);
         ActorMaterializer materializer = ActorMaterializer.create(system);
@@ -23,13 +27,15 @@ public class HttpApp {
 
         CompletionStage<ServerBinding> binding = http.bindAndHandle(
                 routeFlow,
-                ConnectHttp.toHost("localhost", 8080),
+                ConnectHttp.toHost(HOST, PORT),
                 materializer
         );
 
         System.in.read();
-        binding.
-                thenCompose(ServerBinding, )
+        binding
+                .thenCompose(ServerBinding::unbind)
+                .thenAccept(unbound -> system.terminate());
+
 
     }
 }
