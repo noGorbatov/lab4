@@ -38,7 +38,10 @@ public class HttpServer extends AllDirectives {
                     return complete("ok");
                 })),
                 get( () -> parameter( PACKAGE_ID_PARAM, packageId -> {
-                    CompletionStage<Object> answer = PatternsCS.ask(storageActor, new StorageActor.GetMsg(Integer.parseInt(packageId)), TIMEOUT_MS);
+                    CompletionStage<Object> answer =
+                            PatternsCS.ask(storageActor,
+                                            new StorageActor.GetMsg(Integer.parseInt(packageId)),
+                                                                    TIMEOUT_MS);
                     return completeOKWithFuture(answer, Jackson.marshaller());
                 }))
         );
