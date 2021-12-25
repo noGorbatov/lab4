@@ -5,17 +5,17 @@ import akka.actor.ActorRef;
 
 public class TestPerformerActor extends AbstractActor {
 
-    public static class RunTestsMsg {
-        final private TestPackage testPackage;
+    public static class RunTestMsg {
+        final private TestData testPackage;
         final private ActorRef storageActor;
-        public RunTestsMsg(TestPackage tests, ActorRef storageActor) {
+        public RunTestMsg(TestData tests, ActorRef storageActor) {
             this.testPackage = tests;
             this.storageActor = storageActor;
         }
         public ActorRef getStorageActor() {
             return storageActor;
         }
-        public TestPackage getTestPackage() {
+        public TestData getTestPackage() {
             return testPackage;
         }
     }
@@ -23,10 +23,11 @@ public class TestPerformerActor extends AbstractActor {
     @Override
     public Receive createReceive() {
         return receiveBuilder().
-                match(RunTestsMsg.class, );
+                match(RunTestMsg.class, this::runTest).
+                build();
     }
 
-    private void runTests(RunTestsMsg tests) {
+    private void runTest(RunTestMsg testMsg) {
         
     }
 }
