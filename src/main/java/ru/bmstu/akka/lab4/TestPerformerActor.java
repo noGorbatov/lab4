@@ -43,11 +43,14 @@ public class TestPerformerActor extends AbstractActor {
                 build();
     }
 
-    private void runTest(RunTestMsg testMsg) throws ScriptException {
+    private void runTest(RunTestMsg testMsg) throws ScriptException, NoSuchMethodException {
         ScriptEngine engine = new ScriptEngineManager().
                                     getEngineByName(ENGINE_NAME);
         engine.eval(testMsg.getScript());
         Invocable invocable = (Invocable) engine;
-        String result = invocable.invokeFunction(testMsg.getFuncName(), testMsg.getTest)
+        String result = (String) invocable.invokeFunction(testMsg.getFuncName(),
+                                                testMsg.getTestData().
+                                                        getParameters());
+        if (result != testMsg.getTestData().)
     }
 }

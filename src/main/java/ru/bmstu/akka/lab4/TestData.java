@@ -12,18 +12,18 @@ public class TestData {
 
     final private String testName;
     final private String expected;
-    final private List<Object> parameters;
+    final private Object[] parameters;
 
     @JsonCreator
     public TestData(@JsonProperty(TEST_NAME) String testName,
                     @JsonProperty(EXPECTED) String expected,
-                    @JsonProperty(PARAMETERS) List<Object> parameters) {
+                    @JsonProperty(PARAMETERS) Object[] parameters) {
         this.testName = testName;
         this.expected = expected;
         this.parameters = parameters;
     }
 
-    public List<Object> getParameters() {
+    public Object[] getParameters() {
         return parameters;
     }
 
