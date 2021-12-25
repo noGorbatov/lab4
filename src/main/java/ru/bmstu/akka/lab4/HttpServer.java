@@ -18,9 +18,11 @@ public class HttpServer extends AllDirectives {
         return concat(
                 post( () -> {
                     storageActor.tell(new StorageActor.StoreMsg(123, "Test"), ActorRef.noSender());
-                    
+                    return complete("ok");
                 }),
-                get()
+                get( () -> {
+                    return complete("get ok");
+                })
         );
     }
 }
