@@ -55,10 +55,9 @@ public class TestPerformerActor extends AbstractActor {
                                     getEngineByName(ENGINE_NAME);
         engine.eval(testMsg.getScript());
         Invocable invocable = (Invocable) engine;
-        Object resultObj = invocable.invokeFunction(testMsg.getFuncName(),
+        String result = invocable.invokeFunction(testMsg.getFuncName(),
                                                 testMsg.getTestData().
-                                                        getParameters());
-        String result = (String) resultObj;
+                                                        getParameters()).toString();
         int id = testMsg.getPackageId();
         ActorRef storageActor = testMsg.getStorageActor();
         String storeRes;
