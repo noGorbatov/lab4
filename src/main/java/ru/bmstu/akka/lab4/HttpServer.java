@@ -15,6 +15,9 @@ public class HttpServer extends AllDirectives {
 //        system.actorOf(Props.create())
     }
     public Route getRoute() {
-        return concat()
+        return concat(
+                post(),
+                get()
+        );
     }
 }
