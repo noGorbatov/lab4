@@ -6,20 +6,28 @@ import akka.actor.Props;
 import akka.http.javadsl.marshallers.jackson.Jackson;
 import akka.http.javadsl.server.AllDirectives;
 import akka.http.javadsl.server.Route;
+import akka.routing.RoundRobinPool;
 
 public class HttpServer extends AllDirectives {
     ActorSystem system;
     ActorRef storageActor;
     ActorRef workerPool;
+    final static private int WORKERS_NUM = 5;
     public HttpServer(ActorSystem system) {
         this.system = system;
         storageActor = system.actorOf(Props.create(StorageActor.class));
-        workerPool = system
+        workerPool = system.actorOf(new RoundRobinPool(WORKERS_NUM)
+                .props(Props.create(TestPerformerActor.class)));
     }
     public Route getRoute() {
         return concat(
                 post( () -> entity(Jackson.unmarshaller(TestPackage.class), testPackage ->  {
-//                    storageActor.tell(new StorageActor.StoreMsg(123, "Test"), ActorRef.noSender());
+                    int id = testPackage.getId();
+                    for (TestData test: testPackage.getTests()) {
+                        TestPerformerActor.RunTestMsg testMsg =
+                                new TestPerformerActor.RunTestMsg()
+                        workerPool.tell();
+                    }
                     return complete("ok");
                 })),
                 get( () -> {
