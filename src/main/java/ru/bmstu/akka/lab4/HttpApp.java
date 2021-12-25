@@ -29,7 +29,7 @@ public class HttpApp {
 
         System.in.read();
         binding.
-                thenCompose(ServerBinding)
+                thenCompose(ServerBinding, )
 
     }
 }
