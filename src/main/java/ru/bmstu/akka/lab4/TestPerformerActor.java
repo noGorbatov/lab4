@@ -10,6 +10,8 @@ import javax.script.ScriptException;
 
 public class TestPerformerActor extends AbstractActor {
     final private static String ENGINE_NAME = "nashorn";
+    final private static String TEST_SUCCEED = "success for test %s";
+    final private static String TEST_FAILED = "test %s failed, got %s";
 
     public static class RunTestMsg {
         final private int packageId;
@@ -59,12 +61,14 @@ public class TestPerformerActor extends AbstractActor {
 
         int id = testMsg.getPackageId();
         ActorRef storageActor = testMsg.getStorageActor();
-        String store = "";
+        String storeRes;
 
-        if (!result.equals(testMsg.getTestData().getExpected())) {
-
+        if (result.equals(testMsg.getTestData().getExpected())) {
+            storeRes = String.format(TEST_SUCCEED, testMsg.getTestData().getTestName());
+        } else {
+            storeRes = String.format(TEST_FAILED, testMsg.getTestData().getTestName(), result);
         }
 
-        storageActor.tell(new StorageActor.StoreMsg(id, ));
+        storageActor.tell(new StorageActor.StoreMsg(id, storeRes), ActorRef.noSender());
     }
 }

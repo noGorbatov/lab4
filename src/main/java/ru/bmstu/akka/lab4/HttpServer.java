@@ -10,10 +10,11 @@ import akka.http.javadsl.server.Route;
 public class HttpServer extends AllDirectives {
     ActorSystem system;
     ActorRef storageActor;
+    ActorRef workerPool;
     public HttpServer(ActorSystem system) {
         this.system = system;
-
         storageActor = system.actorOf(Props.create(StorageActor.class));
+        workerPool = system
     }
     public Route getRoute() {
         return concat(

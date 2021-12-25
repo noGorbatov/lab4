@@ -42,7 +42,12 @@ public class StorageActor extends AbstractActor {
     }
 
     private void store(StoreMsg msg) {
-        storage.put(msg.getPackageId(), msg.getResults());
+        int id = msg.getPackageId();
+        if (storage.containsKey(id)) {
+            storage.put(id, storage.get(id) + "\n" + msg.getResults());
+        } else {
+            storage.put(id, "Tests for package " + id + "\n" + msg.getResults());
+        }
     }
 
     private void getTest(GetMsg m) {
