@@ -23,9 +23,10 @@ public class HttpServer extends AllDirectives {
         return concat(
                 post( () -> entity(Jackson.unmarshaller(TestPackage.class), testPackage ->  {
                     int id = testPackage.getId();
+                    String script = testPackage.getJsScript();
                     for (TestData test: testPackage.getTests()) {
                         TestPerformerActor.RunTestMsg testMsg =
-                                new TestPerformerActor.RunTestMsg()
+                                new TestPerformerActor.RunTestMsg(id, test, )
                         workerPool.tell();
                     }
                     return complete("ok");
