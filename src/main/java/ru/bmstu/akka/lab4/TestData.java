@@ -1,5 +1,8 @@
 package ru.bmstu.akka.lab4;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 public class TestData {
@@ -9,5 +12,14 @@ public class TestData {
 
     final private String testName;
     final private String expected;
-    final private List<Integer>
+    final private List<Integer> parameters;
+
+    @JsonCreator
+    public TestData(@JsonProperty(TEST_NAME) String testName,
+                    @JsonProperty(EXPECTED) String expected,
+                    @JsonProperty(PARAMETERS) List<Integer> parameters) {
+        this.testName = testName;
+        this.expected = expected;
+        this.parameters = parameters;
+    }
 }
