@@ -17,6 +17,7 @@ public class HttpServer extends AllDirectives {
     final static private int WORKERS_NUM = 5;
     final static private String PACKAGE_ID_PARAM = "packageId";
     final static private int TIMEOUT_MS = 5000;
+    final static private String OK_MSG = "ok";
 
     public HttpServer(ActorSystem system) {
         storageActor = system.actorOf(Props.create(StorageActor.class));
@@ -35,7 +36,7 @@ public class HttpServer extends AllDirectives {
                                 new TestPerformerActor.RunTestMsg(id, test, script, funcName, storageActor);
                         workerPool.tell(testMsg, ActorRef.noSender());
                     }
-                    return complete("ok");
+                    return complete(OK_MSG);
                 })),
                 get( () -> parameter( PACKAGE_ID_PARAM, packageId -> {
                     CompletionStage<Object> answer =

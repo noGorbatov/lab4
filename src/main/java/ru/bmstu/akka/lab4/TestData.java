@@ -3,8 +3,6 @@ package ru.bmstu.akka.lab4;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.List;
-
 public class TestData {
     final static private String TEST_NAME = "testName";
     final static private String EXPECTED = "expectedResult";
