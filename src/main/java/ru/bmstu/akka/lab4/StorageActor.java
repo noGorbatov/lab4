@@ -46,6 +46,8 @@ public class StorageActor extends AbstractActor {
     }
 
     private void getTest(GetMsg m) {
-        getSender().tell(new StoreMsg);
+        int key = m.getPackageId();
+        String results = storage.get(key);
+        getSender().tell(new StoreMsg(key, results), getSelf());
     }
 }
