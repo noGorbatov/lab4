@@ -12,11 +12,14 @@ public class HttpServer extends AllDirectives {
     public HttpServer(ActorSystem system) {
         this.system = system;
 
-//        system.actorOf(Props.create())
+        storageActor = system.actorOf(Props.create(StorageActor.class));
     }
     public Route getRoute() {
         return concat(
-                post(),
+                post( () -> {
+                    storageActor.tell(new StorageActor.StoreMsg(123, "Test"), ActorRef.noSender());
+                    
+                }),
                 get()
         );
     }
