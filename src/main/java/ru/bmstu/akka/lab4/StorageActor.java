@@ -7,6 +7,8 @@ import java.util.Map;
 
 public class StorageActor extends AbstractActor {
     private final Map<Integer, String> storage = new HashMap<>();
+    private final static String INIT_TEST_RES_MSG = "Tests for package ";
+    private final static String TEST_SEP = "\n";
 
     public static class StoreMsg {
         private final int packageId;
@@ -44,9 +46,9 @@ public class StorageActor extends AbstractActor {
     private void store(StoreMsg msg) {
         int id = msg.getPackageId();
         if (storage.containsKey(id)) {
-            storage.put(id, storage.get(id) + "\n" + msg.getResults());
+            storage.put(id, storage.get(id) + TEST_SEP + msg.getResults());
         } else {
-            storage.put(id, "Tests for package " + id + "\n" + msg.getResults());
+            storage.put(id, INIT_TEST_RES_MSG + id + TEST_SEP + msg.getResults());
         }
     }
 
