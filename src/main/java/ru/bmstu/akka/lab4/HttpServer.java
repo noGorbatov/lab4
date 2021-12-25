@@ -16,7 +16,7 @@ public class HttpServer extends AllDirectives {
     }
     public Route getRoute() {
         return concat(
-                post( () -> {
+                post( () -> entity() {
                     storageActor.tell(new StorageActor.StoreMsg(123, "Test"), ActorRef.noSender());
                     return complete("ok");
                 }),
