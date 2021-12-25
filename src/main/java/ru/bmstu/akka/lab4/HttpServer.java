@@ -6,7 +6,7 @@ import akka.actor.Props;
 import akka.http.javadsl.server.AllDirectives;
 import akka.http.javadsl.server.Route;
 
-public class HttpServer {
+public class HttpServer extends AllDirectives {
     ActorSystem system;
     ActorRef storageActor;
     public HttpServer(ActorSystem system) {
