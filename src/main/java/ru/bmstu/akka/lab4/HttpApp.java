@@ -16,9 +16,10 @@ import java.util.concurrent.CompletionStage;
 public class HttpApp {
     private final static String HOST = "localhost";
     private final static int PORT = 8080;
+    private final static String SYSTEM_NAME = "localhost";
 
     public static void main(String[] args) throws IOException {
-        ActorSystem system = ActorSystem.create("HttpSystem");
+        ActorSystem system = ActorSystem.create(SYSTEM_NAME);
         Http http = Http.get(system);
         ActorMaterializer materializer = ActorMaterializer.create(system);
         HttpServer server = new HttpServer(system);
