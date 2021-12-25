@@ -6,6 +6,7 @@ import akka.actor.Props;
 import akka.http.javadsl.marshallers.jackson.Jackson;
 import akka.http.javadsl.server.AllDirectives;
 import akka.http.javadsl.server.Route;
+import akka.pattern.PatternsCS;
 import akka.routing.RoundRobinPool;
 
 public class HttpServer extends AllDirectives {
@@ -13,6 +14,8 @@ public class HttpServer extends AllDirectives {
     ActorRef storageActor;
     ActorRef workerPool;
     final static private int WORKERS_NUM = 5;
+    final static private String PACKAGE_ID_PARAM = "packageId";
+
     public HttpServer(ActorSystem system) {
         this.system = system;
         storageActor = system.actorOf(Props.create(StorageActor.class));
@@ -33,9 +36,10 @@ public class HttpServer extends AllDirectives {
                     }
                     return complete("ok");
                 })),
-                get( () -> {
-                    return complete("get ok");
-                })
+                get( () -> parameter( PACKAGE_ID_PARAM, packageId -> {
+                    PatternsCS.ask(storageActor, new StorageActor.GetMsg(Integer.parseInt(packageId)), ActorRef.noSender());
+                    return completeOKWithFuture();
+                }))
         );
     }
 }
