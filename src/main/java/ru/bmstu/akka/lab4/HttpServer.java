@@ -12,7 +12,6 @@ import akka.routing.RoundRobinPool;
 import java.util.concurrent.CompletionStage;
 
 public class HttpServer extends AllDirectives {
-    ActorSystem system;
     ActorRef storageActor;
     ActorRef workerPool;
     final static private int WORKERS_NUM = 5;
@@ -20,7 +19,6 @@ public class HttpServer extends AllDirectives {
     final static private int TIMEOUT_MS = 5000;
 
     public HttpServer(ActorSystem system) {
-        this.system = system;
         storageActor = system.actorOf(Props.create(StorageActor.class));
         workerPool = system.actorOf(new RoundRobinPool(WORKERS_NUM)
                 .props(Props.create(TestPerformerActor.class)));
@@ -41,7 +39,7 @@ public class HttpServer extends AllDirectives {
                 })),
                 get( () -> parameter( PACKAGE_ID_PARAM, packageId -> {
                     CompletionStage<Object> answer = PatternsCS.ask(storageActor, new StorageActor.GetMsg(Integer.parseInt(packageId)), TIMEOUT_MS);
-                    return completeOKWithFuture(answer, );
+                    return completeOKWithFuture(answer, Jackson.marshaller());
                 }))
         );
     }
